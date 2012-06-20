@@ -9,7 +9,7 @@
 %define debug_build       0
 
 %if 0%{?fedora}
-%define homepage http://start.fedoraproject.org/
+%define homepage http://ipredia.i2p/iprediaos/startpage/
 %else
 %define homepage file:///usr/share/doc/HTML/index.html
 %endif
