@@ -90,7 +90,7 @@ Patch15:        firefox-8.0-enable-addons.patch
 # ---------------------------------------------------
 
 BuildRequires:  desktop-file-utils
-BuildRequires:  system-bookmarks
+BuildRequires:  iprediaos-bookmarks
 BuildRequires:  xulrunner-devel%{?_isa} >= %{xulrunner_verrel}
 
 Requires:       xulrunner%{?_isa} >= %{xulrunner_verrel}
