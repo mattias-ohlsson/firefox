@@ -120,7 +120,7 @@ cd %{tarballdir}
 %patch15 -p2 -b .addons
 
 # IprediaOS patches
-#sed -i 's/proxyConnectFailure/proxyConnectFailureI2P/g' \
+sed -i 's/proxyConnectFailure/proxyConnectFailureI2P/g' \
 	mobile/android/chrome/content/netError.xhtml \
 	mobile/xul/chrome/content/netError.xhtml \
 	mobile/locales/en-US/overrides/appstrings.properties \
@@ -135,7 +135,7 @@ cd %{tarballdir}
 	b2g/locales/en-US/chrome/overrides/netError.dtd \
 	b2g/chrome/content/netError.xhtml
 
-#sed -i 's/Proxy Server Refused/I2P Router Refused/g' dom/locales/en-US/chrome/netError.dtd
+sed -i 's/Proxy Server Refused/I2P Router Refused/g' dom/locales/en-US/chrome/netError.dtd
 
 # Upstream patches
 
