@@ -135,7 +135,21 @@ sed -i 's/proxyConnectFailure/proxyConnectFailureI2P/g' \
 	b2g/locales/en-US/chrome/overrides/netError.dtd \
 	b2g/chrome/content/netError.xhtml
 
-sed -i 's/Proxy Server Refused/I2P Router Refused/g' dom/locales/en-US/chrome/netError.dtd
+sed -i 's/I2P=Fire/I2P=I2PFire/g' \
+        mobile/android/chrome/content/netError.xhtml \
+        mobile/xul/chrome/content/netError.xhtml \
+        mobile/locales/en-US/overrides/appstrings.properties \
+        mobile/locales/en-US/overrides/netError.dtd \
+        browser/locales/en-US/chrome/overrides/appstrings.properties \
+        browser/locales/en-US/chrome/overrides/netError.dtd \
+        dom/locales/en-US/chrome/appstrings.properties \
+        dom/locales/en-US/chrome/netError.dtd \
+        docshell/base/nsDocShell.cpp \
+        docshell/resources/content/netError.xhtml \
+        b2g/locales/en-US/chrome/overrides/appstrings.properties \
+        b2g/locales/en-US/chrome/overrides/netError.dtd \
+        b2g/chrome/content/netError.xhtml
+
 
 # Upstream patches
 
