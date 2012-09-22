@@ -16,7 +16,8 @@
 %define default_bookmarks_file %{_datadir}/bookmarks/default-bookmarks.html
 %define firefox_app_id \{ec8030f7-c20a-464f-9b0e-13a3a9e97384\}
 
-%global xulrunner_version      13.0.1
+%global xulrunner_version      15.0.1
+%global xulrunner_version_max  15.1
 %global xulrunner_release      1
 %global alpha_version          0
 %global beta_version           0
@@ -33,14 +34,17 @@
 %if %{alpha_version} > 0
 %global pre_version a%{alpha_version}
 %global pre_name    alpha%{alpha_version}
+%global tarballdir  mozilla-alpha
 %endif
 %if %{beta_version} > 0
 %global pre_version b%{beta_version}
 %global pre_name    beta%{beta_version}
+%global tarballdir  mozilla-beta
 %endif
 %if %{rc_version} > 0
 %global pre_version rc%{rc_version}
 %global pre_name    rc%{rc_version}
+%global tarballdir  mozilla-release
 %endif
 %if %{defined pre_version}
 %global xulrunner_verrel %{xulrunner_version}-%{xulrunner_release}%{pre_name}
@@ -51,14 +55,14 @@
 
 Summary:        Mozilla Firefox Web browser
 Name:           firefox
-Version:        13.0.1
+Version:        15.0.1
 Release:        1%{?pre_tag}%{?dist}
 URL:            http://www.mozilla.org/projects/firefox/
 License:        MPLv1.1 or GPLv2+ or LGPLv2+
 Group:          Applications/Internet
 Source0:        ftp://ftp.mozilla.org/pub/firefox/releases/%{version}%{?pre_version}/source/firefox-%{version}%{?pre_version}.source.tar.bz2
 %if %{build_langpacks}
-Source1:        firefox-langpacks-%{version}%{?pre_version}-20120616.tar.xz
+Source1:        firefox-langpacks-%{version}%{?pre_version}-20120911.tar.xz
 %endif
 Source10:       firefox-mozconfig
 Source11:       firefox-mozconfig-branded
@@ -73,7 +77,7 @@ Patch0:         firefox-install-dir.patch
 
 # Fedora patches
 Patch14:        firefox-5.0-asciidel.patch
-Patch15:        firefox-8.0-enable-addons.patch
+Patch15:        firefox-15.0-enable-addons.patch
 
 # Upstream patches
 
@@ -97,6 +101,7 @@ Requires:       xulrunner%{?_isa} >= %{xulrunner_verrel}
 Requires:       system-bookmarks
 Obsoletes:      mozilla <= 37:1.7.13
 Provides:       webclient
+Conflicts:      xulrunner%{?_isa} > %{xulrunner_version_max}
 
 %description
 Mozilla Firefox is an open-source web browser, designed for standards
@@ -282,6 +287,32 @@ done
 %{__rm} -rf firefox-langpacks
 %endif # build_langpacks
 
+# Install langpack workaround (see #707100, #821169)
+function create_default_langpack() {
+language_long=$1
+language_short=$2
+cd $RPM_BUILD_ROOT%{langpackdir}
+ln -s langpack-$language_long@firefox.mozilla.org.xpi langpack-$language_short@firefox.mozilla.org.xpi
+cd -
+echo "%%lang($language_short) %{langpackdir}/langpack-$language_short@firefox.mozilla.org.xpi" >> ../%{name}.lang
+}
+
+# Table of fallbacks for each language
+# please file a bug at bugzilla.redhat.com if the assignment is incorrect
+create_default_langpack "bn-IN" "bn"
+create_default_langpack "es-AR" "es"
+create_default_langpack "fy-NL" "fy"
+create_default_langpack "ga-IE" "ga"
+create_default_langpack "gu-IN" "gu"
+create_default_langpack "hi-IN" "hi"
+create_default_langpack "hy-AM" "hy"
+create_default_langpack "nb-NO" "nb"
+create_default_langpack "nn-NO" "nn"
+create_default_langpack "pa-IN" "pa"
+create_default_langpack "pt-PT" "pt"
+create_default_langpack "sv-SE" "sv"
+create_default_langpack "zh-TW" "zh"
+
 # System extensions
 %{__mkdir_p} $RPM_BUILD_ROOT%{_datadir}/mozilla/extensions/%{firefox_app_id}
 %{__mkdir_p} $RPM_BUILD_ROOT%{_libdir}/mozilla/extensions/%{firefox_app_id}
@@ -365,6 +396,27 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 #---------------------------------------------------------------------
 
 %changelog
+* Tue Sep 11 2012 Jan Horak <jhorak@redhat.com> - 15.0.1-1
+- Update to 15.0.1
+
+* Tue Aug 28 2012 Martin Stransky <stransky@redhat.com> - 15.0-2
+- Added fix for rhbz#851722 - conflict with incompatible xulrunner
+
+* Mon Aug 27 2012 Martin Stransky <stransky@redhat.com> - 15.0-1
+- Update to 15.0
+
+* Wed Aug 22 2012 Dan Horák <dan[at]danny.cz> - 14.0.1-3
+- add fix for secondary arches from xulrunner
+
+* Wed Aug 1 2012 Martin Stransky <stransky@redhat.com> - 14.0.1-2
+- removed StartupWMClass (rhbz#844860)
+
+* Mon Jul 16 2012 Martin Stransky <stransky@redhat.com> - 14.0.1-1
+- Update to 14.0.1
+
+* Tue Jul 10 2012 Martin Stransky <stransky@redhat.com> - 13.0.1-2
+- Fixed rhbz#707100, rhbz#821169
+
 * Sat Jun 16 2012 Jan Horak <jhorak@redhat.com> - 13.0.1-1
 - Update to 13.0.1
 
