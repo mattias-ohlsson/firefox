@@ -12,7 +12,7 @@
 # Build as a debug package?
 %define debug_build       0
 
-%define homepage http://start.fedoraproject.org/
+%define homepage http://ipredia.i2p/iprediaos/startpage/
 %define default_bookmarks_file %{_datadir}/bookmarks/default-bookmarks.html
 %define firefox_app_id \{ec8030f7-c20a-464f-9b0e-13a3a9e97384\}
 
@@ -95,7 +95,7 @@ Patch16:        firefox-duckduckgo.patch
 # ---------------------------------------------------
 
 BuildRequires:  desktop-file-utils
-BuildRequires:  system-bookmarks
+BuildRequires:  iprediaos-bookmarks
 BuildRequires:  xulrunner-devel%{?_isa} >= %{xulrunner_verrel}
 
 Requires:       xulrunner%{?_isa} >= %{xulrunner_verrel}
